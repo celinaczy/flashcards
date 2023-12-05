@@ -13,7 +13,6 @@ except FileNotFoundError:
 if len(to_learn) >= 1:
     current_word = to_learn.sample()
 else:
-    # d = {'French': ['yay'], 'English': ['you win']}
     current_word = final_flashcard
 
 
