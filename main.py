@@ -93,6 +93,3 @@ if len(to_learn) < 1:
     messagebox.showinfo(message='you have learned all the words from your current word list')
 window.mainloop()
 
-
-print(to_learn)
-print(len(to_learn))
