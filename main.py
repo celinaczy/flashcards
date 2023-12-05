@@ -3,13 +3,17 @@ import pandas as pd
 import random
 from tkinter import messagebox
 BACKGROUND_COLOR = "#B1DDC6"
+# ---------------------------- initial settings ------------------------------- #
+target_language = 'French'
+native_language = 'English'
+vocabulary_list = "data/french_words.csv"
 # ---------------------------- generate words ------------------------------- #
-final_flashcard = pd.DataFrame(data={'French': ['placeholder'], 'English': ['placeholder']})
+final_flashcard = pd.DataFrame(data={target_language: ['placeholder'], native_language: ['placeholder']})
 # read csv to pandas DataFrame
 try:
     to_learn = pd.read_csv("to_learn.csv")
 except FileNotFoundError:
-    to_learn = pd.read_csv("data/french_words.csv")
+    to_learn = pd.read_csv(vocabulary_list)
 if len(to_learn) >= 1:
     current_word = to_learn.sample()
 else:
@@ -29,8 +33,8 @@ def next_card():
             canvas.itemconfig(language, text='you win!', fill="black")
             window.after_cancel(flip_timer)
             messagebox.showinfo(message='you have learned all the words from your current word list')
-    canvas.itemconfig(word, text=new_word['French'].to_string(index=False), fill="black")
-    canvas.itemconfig(language, text='French', fill="black")
+    canvas.itemconfig(word, text=new_word[target_language].to_string(index=False), fill="black")
+    canvas.itemconfig(language, text=target_language, fill="black")
     canvas.itemconfig(card, image=front_img)
     current_word = new_word
     # print(current_word)
@@ -42,8 +46,8 @@ def flip_card():
     global back_img
     global current_word
     canvas.itemconfig(card, image=back_img)
-    canvas.itemconfig(language, text="English", fill="white")
-    canvas.itemconfig(word, text=current_word['English'].to_string(index=False), fill="white")
+    canvas.itemconfig(language, text=native_language, fill="white")
+    canvas.itemconfig(word, text=current_word[native_language].to_string(index=False), fill="white")
 
 
 # ----------------------- update word list --------------------------- #
@@ -71,8 +75,8 @@ card = canvas.create_image(0, 0, image=front_img, anchor="nw")
 back_img = PhotoImage(file="images/card_back.png")
 # canvas.create_image(0, 0, image=front_img, anchor="nw")
 
-language = canvas.create_text(400, 150, text="French", fill="black", font=("Arial", 40, "italic"))
-word = canvas.create_text(400, 263, text=current_word['French'].to_string(index=False), fill="black", font=("Arial", 60, "bold"))
+language = canvas.create_text(400, 150, text=target_language, fill="black", font=("Arial", 40, "italic"))
+word = canvas.create_text(400, 263, text=current_word[target_language].to_string(index=False), fill="black", font=("Arial", 60, "bold"))
 canvas.grid(column=0, row=0, columnspan=2)
 
 # buttons
